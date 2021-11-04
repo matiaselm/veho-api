@@ -1,6 +1,7 @@
 {
   "name": "veho-api",
   "version": "1.0.0",
+  "type": "module",
   "description": "API for veho-drive",
   "main": "index.js",
   "scripts": {
@@ -18,7 +19,16 @@
   },
   "homepage": "https://github.com/matiaselm/veho-api#readme",
   "dependencies": {
+    "apollo-server-express": "^3.4.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "nodemon": "^2.0.14"
+    "mongodb": "^4.1.4",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.14",
+    "passport": "^0.5.0",
+    "passport-http-bearer": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/helper-compilation-targets": "^7.16.0"
   }
 }
