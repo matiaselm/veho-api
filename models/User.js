@@ -6,7 +6,6 @@ const userSchema = new Schema({
     name: String,
     points: 'Number',
     language: String,
-    car: [{ type: Schema.Types.ObjectID, ref: 'Car' }]
 });
 
 export default mongoose.model('User', userSchema);

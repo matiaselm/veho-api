@@ -1,7 +1,6 @@
 import passport from 'passport';
 import BearerStrategy from 'passport-http-bearer';
 
-console.log('secret', process.env.JWT_SECRET);
 // JWT strategy for handling bearer token
 passport.use(new BearerStrategy(
     (token, done) => {
