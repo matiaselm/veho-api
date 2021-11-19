@@ -16,7 +16,13 @@ export default {
 
   create: async (req, res) => {
     try {
-      const response = await car.create(req.body)
+      let response;
+      if(Array.isArray(req.body)) {
+        response = await car.insertMany(req.body);
+      } else {
+        response = await car.create(req.body)
+      }
+      
       res.status(200).send(response);
     } catch(e) {
       res.send("Can't create car")

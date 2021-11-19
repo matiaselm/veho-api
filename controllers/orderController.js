@@ -6,8 +6,10 @@ export default {
     try {
       if(req.body.user_id) {
         res.send(await order.find({ user_id: req.body.user_id }));
-      } else {
+      } else if(req.body.with_inactive) {
         res.send(await order.find());
+      } else {
+        res.send(await order.find({ active: true }));
       }
     } catch(e) {
       res.status(500).send(e.message);
@@ -29,7 +31,7 @@ export default {
       const ends_at = new Date(req.body.ends_at);
       const orders = await order.find({ user_id: req.body.user_id })
       for (let order of orders) {
-        if (order.starts_at < ends_at && order.ends_at > starts_at) {
+        if ((order.active || order.starts_at < ends_at && order.ends_at > starts_at)) {
           throw new Error('Order overlaps with another order')
         }
       }
@@ -38,6 +40,7 @@ export default {
         ...req.body,
         starts_at: starts_at,
         ends_at: ends_at,
+        active: true
       });
       res.status(200).send(newOrder);
     } catch (e) {

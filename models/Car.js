@@ -3,13 +3,21 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const carSchema = new Schema({
-    image_url: String,
     manufacturer: String,
     model: String,
     year: 'Number',
-    km: 'Number',
+    doors: 'Number',
+    type: String,
+    image_url: String,
+    description: String,
     fueltype: String,
+    gearbox: String,
+    km: 'Number',
+    liters: 'Number', 
     price: 'Number',
+    monthly_price: 'Number',
+    seats: 'Number',
+    location: String,
 });
 
 export default mongoose.model('Car', carSchema);

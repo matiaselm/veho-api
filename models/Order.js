@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     starts_at: Date,
     ends_at: Date,
+    active: Boolean,
     user_id: Schema.Types.ObjectID,
     car_id: Schema.Types.ObjectID,
     user: [{ type: Schema.Types.ObjectID, ref: 'User' }],
