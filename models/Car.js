@@ -9,6 +9,7 @@ const carSchema = new Schema({
     year: 'Number',
     km: 'Number',
     fueltype: String,
+    price: 'Number',
 });
 
 export default mongoose.model('Car', carSchema);
