@@ -9,22 +9,18 @@ export default {
   getOne: async (req, res) => {
     try{
       res.send(await car.findById(req.params.id));
-    } catch(e){
-      res.send('Cant find cat with id ' + req.params.id)
+    } catch(e) {
+      res.send('Cant find car with id ' + req.params.id)
     }
   },
 
   create: async (req, res) => {
-    const { image_url, manufacturer, model, price, year, km } = req.body;
-    const car = await car.create({
-      image_url: image_url,
-      manufacturer: manufacturer,
-      model: model,
-      price: price,
-      year: year,
-      km: km
-    });
-    res.send(`car ${car.model} created with id: ${car._id}`);
+    try {
+      const response = await car.create(req.body)
+      res.status(200).send(response);
+    } catch(e) {
+      res.send("Can't create car")
+    }
   },
 
   modify: async (req, res) => {

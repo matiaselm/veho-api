@@ -16,16 +16,19 @@ export default {
 
     create: async (req, res) => {
         try {
-            const user = await user.create({ ...req.body });
-            res.status(200).send(user);
+            const created = await user.create({ 
+                ...req.body,
+                language: req.body.language?.toLowerCase() ?? 'fi',
+                points: 0
+            });
+            res.status(200).send(created);
         } catch (e) {
             res.status(500).send(e);
         }
     },
 
     update: (req, res) => {
-        console.log(req.body);
-        user.findByIdAndUpdate(req.params.id, { ...req.body }).then(u => {
+        user.findByIdAndUpdate(req.params.id, { ...req.body }, { returnDocument: 'after' }).then(u => {
             res.status(200).send(u);
         }).catch(e => {
             res.status(500).send(e)
@@ -34,6 +37,6 @@ export default {
 
     delete: async (req, res) => {
         const del = await user.deleteOne({ _id: req.params.id });
-        res.send(`deleted ${del.deletedCount} cat post`);
+        res.status(200).send(`Deleted ${del.deletedCount} user`);
     }
 }
