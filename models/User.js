@@ -7,6 +7,7 @@ const userSchema = new Schema({
     name: String,
     points: 'Number',
     language: String,
+    orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
 });
 
 export default mongoose.model('User', userSchema);

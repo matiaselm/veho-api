@@ -12,4 +12,7 @@ router.route('/:id')
   .put(userController.update)
   .delete(userController.delete);
 
+router.route('/:id/orders')
+  .get(userController.getOrders);
+
 export default router;

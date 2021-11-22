@@ -1,14 +1,14 @@
 'use strict';
-import user from '../models/User.js';
+import User from '../models/User.js';
 
 export default {
     getAll: async (req, res) => {
-        res.send(await user.find());
+        res.send(await User.find());
     },
 
     getOne: async (req, res) => {
         try {
-            res.send(await user.findById(req.params.id));
+            res.send(await User.findById(req.params.id));
         } catch (e) {
             res.send('Cant find cat with id ' + req.params.id)
         }
@@ -16,7 +16,7 @@ export default {
 
     create: async (req, res) => {
         try {
-            const created = await user.create({ 
+            const created = await User.create({ 
                 ...req.body,
                 language: req.body.language?.toLowerCase() ?? 'fi',
                 points: 0
@@ -28,7 +28,7 @@ export default {
     },
 
     update: (req, res) => {
-        user.findByIdAndUpdate(req.params.id, { ...req.body }, { returnDocument: 'after' }).then(u => {
+        User.findByIdAndUpdate(req.params.id, { ...req.body }, { returnDocument: 'after' }).then(u => {
             res.status(200).send(u);
         }).catch(e => {
             res.status(500).send(e)
@@ -36,7 +36,18 @@ export default {
     },
 
     delete: async (req, res) => {
-        const del = await user.deleteOne({ _id: req.params.id });
-        res.status(200).send(`Deleted ${del.deletedCount} user`);
+        await User.deleteOne({ _id: req.params.id });
+        res.status(200).send(`Deleted user ${req.params.id}`);
+    },
+
+    getOrders: async (req, res) => {
+        try {
+            console.log('orders')
+            const user = await User.findById(req.params.id).populate('orders');
+            console.log(user)
+            res.send(user);
+        } catch (e) {
+            res.send('Cant find User with id ' + req.params.id)
+        }
     }
 }
