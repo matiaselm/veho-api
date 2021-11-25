@@ -7,6 +7,7 @@ import userRoute from './routes/userRoute.js';
 import carRoute from './routes/carRoute.js';
 import orderRoute from './routes/orderRoute.js';
 import bodyParser from 'body-parser';
+import auth from './passport/authenticate.js';
 
 dotenv.config({ path: '.env' });
 
@@ -26,8 +27,22 @@ const time = currentDate.getHours() + ":" + currentDate.getMinutes();
       console.error({ message: `[${time}] Connection to mongo failed` })
     }
 
-    app.use('/users',  userRoute);
-    app.use('/cars',   carRoute);
+    app.use(auth);
+    app.use('/verify', (req, res) => {
+      const { password, username } = req.body;
+      if(password === process.env.DASH_PASSWD && username === process.env.DASH_USER) {
+        res.status(200).json({
+          message: 'success',
+        })
+      } else {
+        res.status(400).json({
+          message: 'failed'
+        })
+      }
+    });
+
+    app.use('/users', userRoute);
+    app.use('/cars', carRoute);
     app.use('/orders', orderRoute);
     app.listen({ port: 3000 });
     console.log(`[${time}] Server ready at localhost:3000`);
