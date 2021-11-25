@@ -18,7 +18,7 @@ export default {
         try {
             const created = await User.create({ 
                 ...req.body,
-                language: req.body.language?.toLowerCase() ?? 'fi',
+                language: req.body.language.toLowerCase() ?? 'fi',
                 points: 0
             });
             res.status(200).send(created);
