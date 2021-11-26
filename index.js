@@ -18,7 +18,7 @@ const time = currentDate.getHours() + ":" + currentDate.getMinutes();
   try {
     const conn = await connectMongo();
     const app = express();
-    app.use(cors())
+    app.use(cors());
     app.use(bodyParser.json());
 
     if (conn) {
