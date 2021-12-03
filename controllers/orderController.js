@@ -32,7 +32,7 @@ export default {
     try {
       const starts_at = new Date(req.body.starts_at);
       const ends_at = new Date(req.body.ends_at);
-      const orders = await Order.find({ user_id: req.body.user_id })
+      const orders = await Order.find({ user: req.body.user })
       for (let order of orders) {
         if ((order.active || order.starts_at < ends_at && order.ends_at > starts_at)) {
           throw new Error('Order overlaps with another order')
@@ -40,16 +40,15 @@ export default {
       }
 
       const newOrder = await Order.create({
-        ...req.body,
         starts_at: starts_at,
         ends_at: ends_at,
-        active: true,
-        user: req.body.user_id,
-        car: req.body.car_id
+        user: req.body.user,
+        car: req.body.car,
+        active: true
       });
-      res.status(200).send(newOrder.populate('user').populate('car'));
+      res.status(200).send(newOrder);
     } catch (e) {
-      console.error(e)
+      console.error(e.message)
       res.status(500).send(e.message)
     }
   },
@@ -57,7 +56,7 @@ export default {
   modify: async (req, res) => {
     try {
       const modifiedOrder = await Order.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
-      res.send(modifiedOrder.populate('user').populate('car'));
+      res.send(modifiedOrder);
     } catch (e) {
       res.send(e.message)
     }

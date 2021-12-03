@@ -1,5 +1,6 @@
 'use strict';
 import User from '../models/User.js';
+import Order from '../models/Order.js';
 
 export default {
     getAll: async (req, res) => {
@@ -18,7 +19,7 @@ export default {
         try {
             const created = await User.create({ 
                 ...req.body,
-                language: req.body.language.toLowerCase() ?? 'fi',
+                language: req.body?.language?.toLowerCase() ?? 'fi',
                 points: 0
             });
             res.status(200).send(created);
@@ -48,6 +49,15 @@ export default {
             res.send(user);
         } catch (e) {
             res.send('Cant find User with id ' + req.params.id)
+        }
+    },
+
+    getCurrentOrder: async (req, res) => {
+        try {
+            const order = await Order.findOne({ user: req.params.id, active: true }).populate('car');
+            res.send(order);
+        } catch(e) {
+            console.error(e);
         }
     }
 }

@@ -12,6 +12,9 @@ router.route('/:id')
   .put(userController.update)
   .delete(userController.delete);
 
+router.route('/:id/currentorder')
+  .get(userController.getCurrentOrder)
+
 router.route('/:id/orders')
   .get(userController.getOrders);
 
