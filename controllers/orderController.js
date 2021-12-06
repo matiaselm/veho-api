@@ -6,7 +6,7 @@ export default {
     try {
       let orders;
       if(req.body.user_id) {
-        orders = await Order.find({ user_id: req.body.user_id }).populate('user').populate('car');
+        orders = await Order.find({ user: req.body.user_id }).populate('user').populate('car');
       } else if(req.body.active) {
         orders = await Order.find({ active: true }).populate('user').populate('car');
       } else {
