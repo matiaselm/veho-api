@@ -5,10 +5,8 @@ export default {
   getAll: async (req, res) => {
     try {
       let orders;
-      if(req.body.user_id) {
-        orders = await Order.find({ user: req.body.user_id }).populate('user').populate('car');
-      } else if(req.params.user_id) {
-        orders = await Order.find({ user: req.params.user_id }).populate('user').populate('car');
+      if(req.query.user_id) {
+        orders = await Order.find({ user: req.query.user_id }).populate('user').populate('car');
       } else if(req.body.active) {
         orders = await Order.find({ active: true }).populate('user').populate('car');
       } else {
